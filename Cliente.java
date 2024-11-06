@@ -28,7 +28,7 @@ public class Cliente {
     }
 
     public void setCpf(String cpf) {
-        cpf	= this.cpf;
+        this.cpf = cpf;
     }
 
     public String getEndereco() {
@@ -36,7 +36,7 @@ public class Cliente {
     }
 
     public void setEndereco(String endereco) {
-        endereco = this.endereco;
+        this.endereco = endereco;
     }
 
     @Override

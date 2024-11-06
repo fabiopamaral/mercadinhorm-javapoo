@@ -15,7 +15,6 @@ public class Mercadinho {
         this.idProduto = 1;
     }
 
-    // Métodos de Clientes
     public void cadastrarCliente(Scanner scanner) {
         System.out.println();
         System.out.println("Cadastro de novo cliente:");
@@ -28,7 +27,7 @@ public class Mercadinho {
 
         Cliente cliente = new Cliente(proximoId++, nome, cpf, endereco);
         clientes.add(cliente);
-        System.out.println("Cliente cadastrado com o ID: " + cliente.getId());
+        System.out.println("Cliente cadastrado com sucesso!");
     }
 
     public void visualizarClientes() {
@@ -63,6 +62,7 @@ public class Mercadinho {
         }
 
         System.out.println("Cliente encontrado: " + clienteEncontrado);
+        System.out.println();
         System.out.println("Selecione o campo que deseja editar:");
         System.out.println("1 - Nome");
         System.out.println("2 - CPF");
@@ -94,8 +94,7 @@ public class Mercadinho {
                 break;
         }
 
-        System.out.println("Dados do cliente atualizados com sucesso");
-        visualizarClientes();
+        System.out.println("Dados do cliente atualizados com sucesso!");
     }
 
     public void excluirCliente(Scanner scanner) {
@@ -130,22 +129,28 @@ public class Mercadinho {
             }
     }
 
-    // Métodos de Produtos
     public void cadastrarProduto(Scanner scanner) {
+        System.out.println();
         System.out.println("Cadastro de novo produto:");
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
+        System.out.print("Marca: ");
+        String marca = scanner.nextLine();
         System.out.print("Setor: ");
         String setor = scanner.nextLine();
         System.out.print("Preço de custo: ");
         double precoCusto = scanner.nextDouble();
         System.out.print("Preço de venda: ");
         double precoVenda = scanner.nextDouble();
-
-        Produto produto = new Produto(idProduto++, nome, setor, precoCusto, precoVenda);
+        System.out.print("Número de vendas: ");
+        int numeroVendas = scanner.nextInt();
+        scanner.nextLine(); 
+    
+        Produto produto = new Produto(idProduto++, nome, marca, setor, precoCusto, precoVenda, numeroVendas);
         produtos.add(produto);
         System.out.println("Produto cadastrado com sucesso.");
     }
+    
 
     public void visualizarProdutos() {
         if (produtos.isEmpty()) {
@@ -159,11 +164,13 @@ public class Mercadinho {
     }
 
     public void editarProduto(Scanner scanner) {
+        System.out.println();
         visualizarProdutos();
+        System.out.println();
         System.out.println("Informe o id do produto em que deseja editar as informações: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-
+    
         Produto produtoEncontrado = null;
         for (Produto produto : produtos) {
             if (produto.getId() == id) {
@@ -171,54 +178,69 @@ public class Mercadinho {
                 break;
             }
         }
-
+    
         if (produtoEncontrado == null) {
             System.out.println("Produto não encontrado!");
             return;
         }
-
-        System.out.println("Produto encontrado: " + produtoEncontrado.getId());
+    
+        System.out.println("Produto encontrado: " + produtoEncontrado);
         System.out.println("Selecione o campo que deseja editar:");
         System.out.println("1 - Nome");
         System.out.println("2 - Setor");
         System.out.println("3 - Preço de Custo");
         System.out.println("4 - Preço de Venda");
+        System.out.println("5 - Número de Vendas");
+        System.out.println("6 - Marca");
+
         int opcao = scanner.nextInt();
         scanner.nextLine();
-
+    
         switch (opcao) {
             case 1:
                 System.out.println("Informe o novo nome do produto: ");
                 String novoNome = scanner.nextLine();
                 produtoEncontrado.setNome(novoNome);
                 break;
-        
+    
             case 2:
                 System.out.println("Informe o novo setor: ");
                 String novoSetor = scanner.nextLine();
                 produtoEncontrado.setSetor(novoSetor);
                 break;
-            
+    
             case 3:
                 System.out.println("Informe o novo preço de custo: ");
                 double novoPrecoCusto = scanner.nextDouble();
                 produtoEncontrado.setPrecoCusto(novoPrecoCusto);
                 break;
-
+    
             case 4:
                 System.out.println("Informe o novo preço de venda: ");
                 double novoPrecoVenda = scanner.nextDouble();
                 produtoEncontrado.setPrecoVenda(novoPrecoVenda);
                 break;
+    
+            case 5:
+                System.out.println("Informe o novo número de vendas: ");
+                int novoNumeroVendas = scanner.nextInt();
+                produtoEncontrado.setNumeroVendas(novoNumeroVendas);
+                break;
 
+            case 6:
+                System.out.println("Informe a nova marca: ");
+                String novaMarca = scanner.nextLine();
+                produtoEncontrado.setMarca(novaMarca);
+    
             default:
                 System.out.println("Opção inválida.");
                 break;
         }
-
-        System.out.println("Dados do produto atualizado com sucesso.");
+    
+        System.out.println("Dados do produto atualizados com sucesso.");
         visualizarProdutos();
     }
+    
 
     public void excluirProduto(Scanner scanner) {
         visualizarProdutos();
@@ -252,13 +274,50 @@ public class Mercadinho {
             }
     }
 
-    // Métodos de Estatísticas
     public void exibirLucroDosProdutos() {
-        // Aqui você pode implementar a lógica de cálculo de lucro
+    if (produtos.isEmpty()) {
+        System.out.println();
+        System.out.println("Nenhum produto cadastrado. Não é possível calcular o lucro.");
+        return;
     }
 
-    public void compararProdutosPorSetor() {
-        // Aqui você pode implementar a lógica para comparar produtos por setor
+    double lucroTotal = 0;
+
+    for (Produto produto : produtos) {
+        double lucroProduto = (produto.getPrecoVenda() - produto.getPrecoCusto()) * produto.getNumeroVendas();
+        lucroTotal += lucroProduto;
     }
+
+    System.out.printf("Lucro total dos produtos cadastrados: R$ %.2f%n", lucroTotal);
+}
+
+public void exibirVendasPorMarca() {
+    if (produtos.isEmpty()) {
+        System.out.println("Nenhum produto cadastrado. Não é possível exibir vendas por marca.");
+        return;
+    }
+
+    ArrayList<String> marcas = new ArrayList<>();
+    ArrayList<Integer> vendasPorMarca = new ArrayList<>();
+
+    for (Produto produto : produtos) {
+        String marca = produto.getMarca();
+        int vendas = produto.getNumeroVendas();
+
+        int index = marcas.indexOf(marca);
+
+        if (index != -1) {
+            vendasPorMarca.set(index, vendasPorMarca.get(index) + vendas);
+        } else {
+            marcas.add(marca);
+            vendasPorMarca.add(vendas);
+        }
+    }
+
+    System.out.println("Vendas por marca:");
+    for (int i = 0; i < marcas.size(); i++) {
+        System.out.println("Marca: " + marcas.get(i) + " - Vendas: " + vendasPorMarca.get(i));
+    }
+}
 }
 

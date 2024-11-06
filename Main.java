@@ -10,7 +10,7 @@ public class Main {
 
         while (opcao != 4) {
             System.out.println();
-            System.out.println("************** MERCADINHO *******************");
+            System.out.println("******************* MERCADINHO RM *******************");
             System.out.println();
             System.out.println("Escolha uma opção:");
             System.out.println("1 - ÁREA DE CLIENTES");
@@ -24,7 +24,7 @@ public class Main {
             switch (opcao) {
                 case 1 -> gerenciarClientes(mercadinho, scanner);
                 case 2 -> gerenciarProdutos(mercadinho, scanner);
-                case 3 -> exibirEstatisticas(mercadinho);
+                case 3 -> exibirEstatisticas(mercadinho, scanner);
                 case 4 -> System.out.println("Encerrando o sistema...");
                 default -> System.out.println("Opção inválida. Informe uma opção de 1 a 4!");
             }
@@ -37,7 +37,8 @@ public class Main {
         
         while (opcaoCliente != 5) {
             System.out.println();
-            System.out.println("ÁREA DE CLIENTES:");
+            System.out.println("******************* ÁREA DE CLIENTES *******************");
+            System.out.println();
             System.out.println("1 - Novo cadastro");
             System.out.println("2 - Visualizar cadastros");
             System.out.println("3 - Editar cadastros");
@@ -46,7 +47,7 @@ public class Main {
             System.out.println();
             
             opcaoCliente = scanner.nextInt();
-            scanner.nextLine();  // Consumir a quebra de linha
+            scanner.nextLine();  
 
             switch (opcaoCliente) {
                 case 1 -> mercadinho.cadastrarCliente(scanner);
@@ -64,7 +65,8 @@ public class Main {
         
         while (opcaoProduto != 5) {
             System.out.println();
-            System.out.println("ÁREA DE PRODUTOS:");
+            System.out.println("******************* ÁREA DE PRODUTOS *******************");
+            System.out.println();
             System.out.println("1 - Cadastrar um produto novo");
             System.out.println("2 - Visualizar produtos");
             System.out.println("3 - Editar lista de produtos");
@@ -73,7 +75,7 @@ public class Main {
             System.out.println();
 
             opcaoProduto = scanner.nextInt();
-            scanner.nextLine();  // Consumir a quebra de linha
+            scanner.nextLine(); 
             
             switch (opcaoProduto) {
                 case 1 -> mercadinho.cadastrarProduto(scanner);
@@ -86,9 +88,28 @@ public class Main {
         }
     }
 
-    private static void exibirEstatisticas(Mercadinho mercadinho) {
-        System.out.println("ESTATÍSTICAS:");
-        mercadinho.exibirLucroDosProdutos();
-        mercadinho.compararProdutosPorSetor();
+    private static void exibirEstatisticas(Mercadinho mercadinho, Scanner scanner) {
+        int opcaoEstatistica = 0;
+
+        while (opcaoEstatistica != 3) {
+        System.out.println();
+        System.out.println("******************* ESTATÍSTICAS *******************");
+        System.out.println();
+        System.out.println("1 - Exibir Lucro total das vendas");
+        System.out.println("2 - Exibir vendas por marca");
+        System.out.println("3 - Voltar");
+        System.out.println();
+
+        opcaoEstatistica = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (opcaoEstatistica) {
+            case 1 -> mercadinho.exibirLucroDosProdutos();
+            case 2 -> mercadinho.exibirVendasPorMarca();
+            case 3 -> System.out.println("Voltando ao menu principal.");
+            default -> System.out.println("Opção inválida.");
+        }
+    }
+
     }
 }
